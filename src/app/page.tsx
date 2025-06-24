@@ -1,98 +1,32 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client"; 
-import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
+
 
 export default function Home() {
 
-
-  const { 
-        data: session, 
-       
-    } = authClient.useSession() 
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("")
-
-  const onSubmit = () => {
-    authClient.signUp.email({
-  email,
-  name,
-  password
-}, {
-  onError: (err) => {
-    console.error("Signup Error:", err);
-    window.alert("Something went wrong");
-  },
-  onSuccess: (res) => {
-    console.log("Signup Success:", res);
-    window.alert("Success");
-  }
-})
-
-  }
-
-
-  const onLogin = () => {
-    authClient.signIn.email({
-  email,
-  password
-}, {
-  onError: (err) => {
-    console.error("SignIn Error:", err);
-    window.alert("Something went wrong");
-  },
-  onSuccess: (res) => {
-    console.log("SignIn Success:", res);
-    window.alert("Success");
-  }
-})
-
-  }
-
-  if(session){
-    return (
-      <div className="flex flex-col p-4 gap-y-4">
-
-        <p>
-          Logged in as {session.user.name}
-        </p>
-        <Button onClick={() => authClient.signOut()}>
-          Sign Out
-        </Button>
-
-      </div>
-    )
-  }
-
   return (
-    
-    <div className="flex flex-col gap-y-10">
-    <div className="p-4 flex flex-col gap-y-4">
-      <Input placeholder="name" value={name} onChange={(e) => setName(e.target.value)}/>
-      <Input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-      <Input placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-
-      <Button onClick={onSubmit}>
-        Create User
-      </Button>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50">
+      <div className="text-center space-y-6">
+        <h1 className="text-6xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+          ZenoMeet
+        </h1>
+        <p className="text-xl text-slate-600 max-w-md mx-auto">
+          Experience the future of professional meetings and collaboration
+        </p>
+        <div className="space-x-4">
+          <Link href="/sign-in">
+            <Button className="bg-gradient-to-r cursor-pointer from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white px-8 py-3 text-lg">
+              Get Started
+            </Button>
+          </Link>
+          <Button variant="outline" className="px-8 py-3 text-lg">
+            Learn More
+          </Button>
+        </div>
+      </div>
     </div>
-
-    <div className="p-4 flex flex-col gap-y-4">
-      
-      <Input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-      <Input placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-
-      <Button onClick={onLogin}>
-       Login
-      </Button>
-    </div>
-    
-    </div>
-    
   );
-}
+};
+
