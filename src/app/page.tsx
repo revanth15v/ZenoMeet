@@ -16,7 +16,7 @@ export default function Home() {
           Experience the future of professional meetings and collaboration
         </p>
         <div className="space-x-4">
-          <Link href="/sign-in">
+          <Link href="/dashboard">
             <Button className="bg-gradient-to-r cursor-pointer from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white px-8 py-3 text-lg">
               Get Started
             </Button>

@@ -153,7 +153,8 @@ const SignUpView = () => {
     authClient.signUp.email({
         name: data.name,
         email: data.email,
-        password: data.password
+        password: data.password,
+        callbackURL:"/dashboard"
     },
     {
         onSuccess: () => {
@@ -165,6 +166,7 @@ const SignUpView = () => {
         }
     }
 )
+
     try {
       // Simulate loading
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -193,6 +195,25 @@ const SignUpView = () => {
     }
   };
 
+   const onSocial =  (provider: "github" | "google") => {
+    setError(null);
+    setPending(true);
+    
+    
+    authClient.signIn.social({
+        provider: provider,
+        callbackURL: "/dashboard"
+    },
+    {
+        onSuccess: () => {
+            setPending(false)
+        },
+        onError: ({error}) => {
+            setError(error.message)
+        }
+    }
+)
+  }
   return (
     <div 
       ref={containerRef}
@@ -384,6 +405,7 @@ const SignUpView = () => {
                       <Button
                         disabled={pending}
                         variant="outline"
+                        onClick={() => onSocial("google")}
                         type="button"
                         className="h-12 border-slate-200 hover:border-slate-300 transition-all duration-300 transform hover:scale-[1.02]"
                       >
@@ -399,6 +421,7 @@ const SignUpView = () => {
                         disabled={pending}
                         variant="outline"
                         type="button"
+                        onClick={() => onSocial("github")}
                         className="h-12 border-slate-200 hover:border-slate-300 transition-all duration-300 transform hover:scale-[1.02]"
                       >
                         <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
@@ -492,4 +515,5 @@ ZenoMeet lets you host smarter meetings with AI agents that adapt to your workfl
   );
 };
 
-export default SignUpView;
+
+export default SignUpView
