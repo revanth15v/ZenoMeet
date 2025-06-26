@@ -118,12 +118,12 @@ const firstSection = [
   {
     icon: VideoIcon,
     label: "Meetings",
-    href: "/meetings",
+    href: "/dashboard/meetings",
   },
   {
     icon: BotIcon,
     label: "Agents",
-    href: "/agents",
+    href: "/dashboard/agents",
   },
 ]
 
@@ -135,7 +135,7 @@ const secondSection = [
   },
 ]
 
-export const DashboradSidebar = () => {
+export const DashboardSidebar = () => {
   const pathname = usePathname()
 
   return (
