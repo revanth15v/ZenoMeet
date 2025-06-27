@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 interface GeneratedAvatarProps {
     seed:string
     className?: string
-    variant: "bottsNeutral" | "initials"
+    variant: "botttsNeutral" | "initials"
 }
 
 export const GeneratedAvatar = ({
@@ -17,7 +17,7 @@ export const GeneratedAvatar = ({
 }: GeneratedAvatarProps) => {
     let avatar
 
-    if(variant === "bottsNeutral"){
+    if(variant === "botttsNeutral"){
         avatar = createAvatar(botttsNeutral, {
             seed
         })
@@ -30,12 +30,11 @@ export const GeneratedAvatar = ({
     }
 
     return (
-        <Avatar className={cn(className)}>
-            <AvatarImage src={avatar.toDataUri()} alt='Avatar'>
-                <AvatarFallback>
-                    {seed.charAt(0).toUpperCase()}
-                </AvatarFallback>
-            </AvatarImage>
-        </Avatar>
+         <Avatar className={cn(className)}>
+    <AvatarImage src={avatar.toDataUri()} alt='Avatar' />  {/* ✅ self-closing */}
+    <AvatarFallback>
+      {seed.charAt(0).toUpperCase()}
+    </AvatarFallback>
+  </Avatar>
     )
 }
