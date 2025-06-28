@@ -7,18 +7,39 @@ import { ResponsiveDialog } from "@/components/responsive-dialog";
 import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client"
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { DataTable } from "../components/data-table";
+import { columns } from "../components/columns";
+import { EmptyState } from "@/components/empty-state";
+import { useAgentsFilters } from "../../hooks/use-agentsfilters";
+import { agents } from "@/db/schema";
+import { DataPagination } from "../components/data-pagination";
 
 
 
 export const AgentsView = () => {
-    const trpc = useTRPC();
-    const {data} = useSuspenseQuery(trpc.agents.getMany.queryOptions())
 
-    
+    const [filters, setFilters] = useAgentsFilters();
 
+   const trpc = useTRPC();
+	const { data } = useSuspenseQuery(
+		trpc.agents.getMany.queryOptions({
+            ...filters,
+        })
+	);
     return (
-        <div>
-            {JSON.stringify(data, null, 2)}
+        <div className="flex-1 pb-4 px-4 md:px-8 flex flex-col gap-y-4">
+           <DataTable data={Array.isArray(data) ? data : data.item} columns={columns}/>
+          <DataPagination
+				page={filters.page}
+				totalPages={data.totalPages}
+				onPageChange={(page) => setFilters({ page })}
+			/>
+           {(Array.isArray(data) ? data.length === 0 : data.item.length === 0) && (
+            <EmptyState
+            title="Create your first agent"
+            description="Create an agent to join your meetings. Each agent will your your instructions and can interact with participants during the call"
+            />
+           )}
         </div>
     )
 }

@@ -179,56 +179,35 @@ const AgentForm = ({
 
     const createAgent = useMutation(
         trpc.agents.create.mutationOptions({
-            onSuccess: (data) => {
+            onSuccess: () => {
 				queryClient.invalidateQueries(
-					trpc.agents.getMany.queryOptions()
+					trpc.agents.getMany.queryOptions({})
 				);
 				if(initialValues?.id){
 					queryClient.invalidateQueries(
 						trpc.agents.getOne.queryOptions({id: initialValues.id})
 					);
 				}
-				toast.success(isEdit ? "Agent updated successfully!" : "Agent created successfully!");
+				toast.success("Agent created successfully!");
 				setHasUnsavedChanges(false);
 				onSuccess?.();
 			},
-            onError: (error) => {
+            onError: (error: any) => {
 				console.error('Agent creation error:', error);
 				
 				// Enhanced error handling
-				if (error.message.includes('FORBIDDEN') || error.message.includes('upgrade')) {
+				if (error.message?.includes('FORBIDDEN') || error.message?.includes('upgrade')) {
 					toast.error("Please upgrade your plan to create more agents", {
 						action: {
 							label: "Upgrade",
 							onClick: () => router.push('/upgrade')
 						}
 					});
-				} else if (error.message.includes('DUPLICATE')) {
+				} else if (error.message?.includes('DUPLICATE')) {
 					toast.error("An agent with this name already exists");
 				} else {
 					toast.error(error.message || "Failed to create agent");
 				}
-			},
-        })
-    );
-
-    // Add update mutation for edit functionality
-    const updateAgent = useMutation(
-        trpc.agents.update.mutationOptions({
-            onSuccess: (data) => {
-				queryClient.invalidateQueries(
-					trpc.agents.getMany.queryOptions()
-				);
-				queryClient.invalidateQueries(
-					trpc.agents.getOne.queryOptions({id: initialValues!.id})
-				);
-				toast.success("Agent updated successfully!");
-				setHasUnsavedChanges(false);
-				onSuccess?.();
-			},
-            onError: (error) => {
-				console.error('Agent update error:', error);
-				toast.error(error.message || "Failed to update agent");
 			},
         })
     );
@@ -243,7 +222,7 @@ const AgentForm = ({
     });
 
     const isEdit = !!initialValues?.id;
-	const isPending = createAgent.isPending || updateAgent.isPending;
+	const isPending = createAgent.isPending;
     const watchedValues = form.watch();
     const formErrors = form.formState.errors;
     const isValid = form.formState.isValid;
@@ -269,10 +248,11 @@ const AgentForm = ({
 
     const onSubmit = (values: z.infer<typeof enhancedAgentSchema>) => {
 		if (isEdit && initialValues?.id) {
-			updateAgent.mutate({ ...values, id: initialValues.id });
-		} else {
-			createAgent.mutate(values);
+			// TODO: Implement update functionality when trpc.agents.update is available
+			toast.error("Update functionality not yet implemented");
+			return;
 		}
+		createAgent.mutate(values);
 	};
 
     const handleCancel = () => {
@@ -287,7 +267,7 @@ const AgentForm = ({
 
     const generateSampleInstructions = () => {
         const samples = [
-            "You are a helpful assistant specialized in code reviews. Provide constructive feedback, suggest improvements, and highlight best practices.",
+           "You are a helpful assistant specialized in code reviews. Provide constructive feedback, suggest improvements, and highlight best practices.",
             "You are an expert interview coach. Help users prepare for job interviews by providing practice questions, feedback, and career advice.",
             "You are a creative writing mentor. Assist with storytelling, character development, plot structure, and writing techniques.",
             "You are a data analysis expert. Help users interpret data, create visualizations, and draw meaningful insights from datasets.",
@@ -455,7 +435,7 @@ const AgentForm = ({
                                 {isPending ? (
                                     <>
                                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                        {isEdit ? "Updating..." : "Creating..."}
+                                        {isEdit ? "Update not available" : "Creating..."}
                                     </>
                                 ) : (
                                     <>
