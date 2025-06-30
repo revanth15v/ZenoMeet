@@ -13,7 +13,7 @@ import { count } from "drizzle-orm";
 export const agentsRouter = createTRPCRouter({
 
     //TODO: change getOne to use protectedProcedure
-     getOne: protectedProcedure.input(z.object({id:z.string()})).query(async ({input}) => {
+     getOne: protectedProcedure.input(z.object({id:z.string()})).query(async ({input, ctx}) => {
         const [existingAgent] = await db.select({
             //TODO change to actual count
              meetingCount: sql<number>`5`,
@@ -22,7 +22,17 @@ export const agentsRouter = createTRPCRouter({
             
         })
         .from(agents)
-        .where(eq(agents.id, input.id))
+        .where(and(
+            eq(agents.id, input.id),
+            eq(agents.userId, ctx.auth.user.id)
+        ))
+
+        if(!existingAgent) {
+            throw new TRPCError({
+                code: 'NOT_FOUND',
+                message: `Agent with id ${input.id} not found`
+            })
+        }
 
         // await new Promise((resolve) => setTimeout(resolve, 5000))
 
