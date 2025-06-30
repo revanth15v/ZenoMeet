@@ -237,7 +237,7 @@ export const AgentIdView = ({ agentId }: Props) => {
 								<div className="flex gap-3 w-full sm:w-auto">
 									<button
 										onClick={() => setUpdateAgentDialogOpen(true)}
-										className="flex-1 sm:flex-none bg-white/90 hover:bg-white text-blue-700 hover:text-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 px-6 py-2.5 rounded-xl font-medium group flex items-center justify-center gap-2"
+										className="flex-1 sm:flex-none bg-white/90 cursor-pointer hover:bg-white text-blue-700 hover:text-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 px-6 py-2.5 rounded-xl font-medium group flex items-center justify-center gap-2"
 									>
 										<Edit3Icon className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200" />
 										Edit Agent
@@ -245,7 +245,7 @@ export const AgentIdView = ({ agentId }: Props) => {
 									<button
 										onClick={handleRemoveAgent}
 										disabled={removeAgent.isPending}
-										className="flex-1 sm:flex-none bg-red-500/90 hover:bg-red-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 px-6 py-2.5 rounded-xl font-medium group flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+										className="flex-1 sm:flex-none bg-red-500/90 hover:bg-red-600 cursor-pointer text-white shadow-lg hover:shadow-xl transition-all duration-200 px-6 py-2.5 rounded-xl font-medium group flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
 									>
 										<Trash2Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
 										{removeAgent.isPending ? "Removing..." : "Remove Agent"}
@@ -318,7 +318,7 @@ export const AgentIdView = ({ agentId }: Props) => {
 									<div className="flex gap-3">
 										<button
 											onClick={() => setUpdateAgentDialogOpen(true)}
-											className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200"
+											className="flex cursor-pointer items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200"
 										>
 											<Edit3Icon className="w-4 h-4" />
 											Edit Instructions

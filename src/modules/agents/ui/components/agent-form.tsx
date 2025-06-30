@@ -442,7 +442,7 @@ const AgentForm = ({
                                     disabled={isPending} 
                                     type="button" 
                                     onClick={handleCancel}
-                                    className="sm:w-auto w-full"
+                                    className="sm:w-auto cursor-pointer w-full"
                                 >
                                     Cancel
                                 </Button>
@@ -450,7 +450,7 @@ const AgentForm = ({
                             <Button 
                                 disabled={isPending || !isValid} 
                                 type="submit"
-                                className="sm:w-auto w-full sm:min-w-[120px]"
+                                className="sm:w-auto cursor-pointer w-full sm:min-w-[120px]"
                             >
                                 {isPending ? (
                                     <>
