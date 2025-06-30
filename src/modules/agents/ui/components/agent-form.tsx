@@ -212,6 +212,26 @@ const AgentForm = ({
         })
     );
 
+
+    const updateAgent = useMutation(
+		trpc.agents.update.mutationOptions({
+			onSuccess: async () => {
+				await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
+
+				if (initialValues?.id) {
+					await queryClient.invalidateQueries(trpc.agents.getOne.queryOptions({ id: initialValues.id }));
+				}
+				onSuccess?.();
+			},
+			onError: (error) => {
+				toast.error(error.message);
+
+				// TODO: Handle error
+			},
+		})
+	);
+
+
     const form = useForm<z.infer<typeof enhancedAgentSchema>>({
         resolver: zodResolver(enhancedAgentSchema),
 		defaultValues: {
@@ -222,7 +242,7 @@ const AgentForm = ({
     });
 
     const isEdit = !!initialValues?.id;
-	const isPending = createAgent.isPending;
+	const isPending = createAgent.isPending || updateAgent.isPending;
     const watchedValues = form.watch();
     const formErrors = form.formState.errors;
     const isValid = form.formState.isValid;
@@ -248,11 +268,11 @@ const AgentForm = ({
 
     const onSubmit = (values: z.infer<typeof enhancedAgentSchema>) => {
 		if (isEdit && initialValues?.id) {
-			// TODO: Implement update functionality when trpc.agents.update is available
-			toast.error("Update functionality not yet implemented");
-			return;
-		}
+			
+			updateAgent.mutate({ ...values, id: initialValues.id });
+		}else{
 		createAgent.mutate(values);
+        }
 	};
 
     const handleCancel = () => {
