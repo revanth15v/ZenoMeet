@@ -39,10 +39,10 @@ export const AgentsView = () => {
             }}
            />
           <DataPagination
-				page={filters.page}
-				totalPages={data.totalPages}
-				onPageChange={(page) => setFilters({ page })}
-			/>
+                page={filters.page}
+                totalPages={Array.isArray(data) ? 1 : data.totalPages}
+                onPageChange={(page) => setFilters({ page })}
+            />
            {(Array.isArray(data) ? data.length === 0 : data.item.length === 0) && (
             <EmptyState
             title="Create your first agent"
