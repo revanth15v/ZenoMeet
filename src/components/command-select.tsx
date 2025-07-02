@@ -241,6 +241,7 @@ export const CommandSelect = ({
       );
     }
 
+
     return (
       <div className="flex items-center justify-center gap-2 py-6 text-muted-foreground">
         <SearchIcon className="h-4 w-4" />

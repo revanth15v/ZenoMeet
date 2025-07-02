@@ -6,11 +6,29 @@ import { PlusIcon, XCircleIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { DEFAULT_PAGE } from '@/constants'
 import { NewMeetingDialog } from './new-meeting-dialog'
+import { MeetingsSearchFilter } from './meetings-search-filter'
+import { StatusFilter } from './status-filters'
+import { AgentIdFilter } from './agent-id-filter'
+import { useMeetingsFilters } from '../../hooks/use-agentsfilters'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 const MeetingsListHeader = () => {
 
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+
+    const [filters, setFilters] = useMeetingsFilters()
+
+    const isAnyFilterModified = !!filters.status || !!filters.agentId || !!filters.search
+
+   const onClearFilters = () => {
+    setFilters({
+      status: null,
+      agentId: "",
+      search: "",
+      page: DEFAULT_PAGE,
+    });
+  };
 
 
 
@@ -27,9 +45,20 @@ const MeetingsListHeader = () => {
             New Meeting
         </Button>
       </div>
+      <ScrollArea>
       <div className='flex items-center gap-x-2 p-1'>
-       TODO filters
+       <MeetingsSearchFilter/>
+       <StatusFilter/>
+       <AgentIdFilter/>
+       {isAnyFilterModified && (
+              <Button variant="outline" onClick={onClearFilters}>
+                <XCircleIcon className="size-4" />
+                Clear
+              </Button>
+            )}
       </div>
+      <ScrollBar orientation='horizontal'/>
+      </ScrollArea>
     </div>
     </>
   )
