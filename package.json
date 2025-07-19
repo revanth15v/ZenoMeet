@@ -12,6 +12,8 @@
     "dev:webhook": "ngrok http --url=hare-topical-wasp.ngrok-free.app 3000"
   },
   "dependencies": {
+    "@azure/ai-text-analytics": "^5.1.0",
+    "@azure/core-auth": "^1.10.0",
     "@dicebear/collection": "^9.2.3",
     "@dicebear/core": "^9.2.3",
     "@hookform/resolvers": "^5.1.1",
