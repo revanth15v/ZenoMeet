@@ -1,96 +1,3 @@
-// "use client";
-
-// import Image from "next/image";
-// import Link from "next/link";
-// import { usePathname } from "next/navigation";
-// import { BotIcon, StarIcon, VideoIcon } from "lucide-react";
-
-// import { Separator } from "@/components/ui/separator";
-// import {
-//   Sidebar,
-//   SidebarContent,
-//   SidebarFooter,
-//   SidebarGroup,
-//   SidebarGroupContent,
-//   SidebarHeader,
-//   SidebarMenu,
-//   SidebarMenuButton,
-//   SidebarMenuItem,
-// } from "@/components/ui/sidebar";
-// import { DashboardUserButton } from "./dashboard-user-button";
-
-
-// const firstSections = [
-//   { icon: VideoIcon, label: "Meetings", href: "/meetings" },
-//   { icon: BotIcon, label: "Agents", href: "/agents" },
-// ];
-
-// const secondSections = [{ icon: StarIcon, label: "Upgrade", href: "upgrade" }];
-
-// export function DashboardSidebar() {
-//   const pathname = usePathname();
-
-//   return (
-//     <Sidebar>
-//       <SidebarHeader className="text-sidebar-accent-foreground">
-//         <Link href="/" className="flex items-center gap-2 px-2 pt-2">
-//           <Image src="/logo.svg" height={46} width={46} alt="Meet AI" />
-//           <p className="text-lg font-semibold text-black">Meet AI</p>
-//         </Link>
-//       </SidebarHeader>
-//       <div className="px-4 py-2">
-//         <Separator />
-//       </div>
-//       <SidebarContent>
-//         <SidebarGroup>
-//           <SidebarGroupContent>
-//             <SidebarMenu>
-//               {firstSections.map((item) => (
-//                 <SidebarMenuItem key={item.href}>
-//                   <SidebarMenuButton asChild isActive={pathname === item.href}>
-//                     <Link href={item.href}>
-//                       <item.icon className="size-5" />
-//                       <span className="text-sm font-medium tracking-tight">
-//                         {item.label}
-//                       </span>
-//                     </Link>
-//                   </SidebarMenuButton>
-//                 </SidebarMenuItem>
-//               ))}
-//             </SidebarMenu>
-//           </SidebarGroupContent>
-//         </SidebarGroup>
-//         <div className="px-4 py-2">
-//           <Separator />
-//         </div>
-//         <SidebarGroup>
-//           <SidebarGroupContent>
-//             <SidebarMenu>
-//               {secondSections.map((item) => (
-//                 <SidebarMenuItem key={item.href}>
-//                   <SidebarMenuButton asChild isActive={pathname === item.href}>
-//                     <Link href={item.href}>
-//                       <item.icon className="size-5" />
-//                       <span className="text-sm font-medium tracking-tight">
-//                         {item.label}
-//                       </span>
-//                     </Link>
-//                   </SidebarMenuButton>
-//                 </SidebarMenuItem>
-//               ))}
-//             </SidebarMenu>
-//           </SidebarGroupContent>
-//         </SidebarGroup>
-//       </SidebarContent>
-//       <SidebarFooter>
-       
-//         <DashboardUserButton />
-//       </SidebarFooter>
-//     </Sidebar>
-//   );
-// }
-
-
 
 "use client"
 
@@ -113,6 +20,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { DashboardUserButton } from "./dashboard-user-button"
+import { DashboardTrail } from "./dashboard-trail"
 
 const firstSection = [
   {
@@ -131,7 +39,7 @@ const secondSection = [
   {
     icon: StarIcon,
     label: "Upgrade",
-    href: "/upgrade",
+    href: "/dashboard/upgrade",
   },
 ]
 
@@ -294,12 +202,20 @@ export const DashboardSidebar = () => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        
       </SidebarContent>
 
+      {/* DashboardTrail component positioned above sidebar footer */}
+      <div className="px-4 pb-2 relative z-10">
+        <DashboardTrail />
+      </div>
+              
       <SidebarFooter className="relative z-10 p-4">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-xl blur"></div>
           <div className="relative bg-white/95 backdrop-blur-xl border border-slate-400/70 rounded-xl p-3 hover:border-emerald-500/70 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 shadow-md">
+          
             <DashboardUserButton />
           </div>
         </div>

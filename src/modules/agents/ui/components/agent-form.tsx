@@ -179,9 +179,12 @@ const AgentForm = ({
 
     const createAgent = useMutation(
         trpc.agents.create.mutationOptions({
-            onSuccess: () => {
-				queryClient.invalidateQueries(
+            onSuccess: async () => {
+				await queryClient.invalidateQueries(
 					trpc.agents.getMany.queryOptions({})
+				);
+                await queryClient.invalidateQueries(
+					trpc.premium.getFreeUsage.queryOptions()
 				);
 				if(initialValues?.id){
 					queryClient.invalidateQueries(
@@ -196,18 +199,9 @@ const AgentForm = ({
 				console.error('Agent creation error:', error);
 				
 				// Enhanced error handling
-				if (error.message?.includes('FORBIDDEN') || error.message?.includes('upgrade')) {
-					toast.error("Please upgrade your plan to create more agents", {
-						action: {
-							label: "Upgrade",
-							onClick: () => router.push('/upgrade')
-						}
-					});
-				} else if (error.message?.includes('DUPLICATE')) {
-					toast.error("An agent with this name already exists");
-				} else {
-					toast.error(error.message || "Failed to create agent");
-				}
+				if(error.data?.code === "FORBIDDEN"){
+                    router.push("/dashboard/upgrade")
+                }
 			},
         })
     );
