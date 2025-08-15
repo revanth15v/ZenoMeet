@@ -49,7 +49,7 @@ export async function POST(req: NextRequest){
 
         payload = JSON.parse(body) as Record<string, unknown>;
         
-    } catch (error) {
+    } catch (_error) {
         return NextResponse.json(
             { error: "Invalid JSON payload" },
             { status: 400 }

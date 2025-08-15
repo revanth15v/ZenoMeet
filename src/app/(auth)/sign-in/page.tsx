@@ -1,4 +1,3 @@
-import { Card } from '@/components/ui/card'
 import { auth } from '@/lib/auth'
 import  SignInView  from '@/modules/auth/ui/views/signin-view'
 import { headers } from 'next/headers'

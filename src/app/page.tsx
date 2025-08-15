@@ -1,9 +1,24 @@
 'use client'
 
 import { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, type MotionValue } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpen, Users, Calendar, CheckCircle, Star, Twitter, Github, Linkedin, Brain, MessageCircle, Code, Target, Lightbulb, Briefcase } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  Users,
+  Calendar,
+  Star,
+  Twitter,
+  Github,
+  Linkedin,
+  Brain,
+  MessageCircle,
+  Code,
+  Target,
+  Lightbulb,
+  Briefcase
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,11 +27,28 @@ import Link from 'next/link';
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
+type IconType = React.ComponentType<{ className?: string }>;
+
+interface AIAgent {
+  icon: IconType;
+  title: string;
+  description: string;
+  gradient: string;
+  bgGradient: string;
+}
+
+interface Feature {
+  icon: IconType;
+  title: string;
+  description: string;
+  delay: number;
+}
+
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ['start start', 'end start'],
   });
 
   const heroY = useTransform(scrollYProgress, [0, 1], [0, -50]);
@@ -26,72 +58,71 @@ const Home = () => {
     // GSAP ScrollTrigger animations
     const ctx = gsap.context(() => {
       // Falling elements animation
-      gsap.from(".fall-element", {
+      gsap.from('.fall-element', {
         y: -200,
         opacity: 0,
         duration: 1.5,
         stagger: 0.2,
-        ease: "bounce.out",
+        ease: 'bounce.out',
         scrollTrigger: {
-          trigger: ".hero-cards",
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
+          trigger: '.hero-cards',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+        },
       });
 
       // Floating cards entrance
-      gsap.from(".floating-card", {
+      gsap.from('.floating-card', {
         scale: 0,
         rotation: 180,
         opacity: 0,
         duration: 1,
         stagger: 0.3,
-        ease: "back.out(2)",
+        ease: 'back.out(2)',
         scrollTrigger: {
-          trigger: ".hero-cards",
-          start: "top 70%",
-          toggleActions: "play none none reverse"
-        }
+          trigger: '.hero-cards',
+          start: 'top 70%',
+          toggleActions: 'play none none reverse',
+        },
       });
 
       // Features sliding in from sides
-      gsap.from(".slide-left", {
+      gsap.from('.slide-left', {
         x: -200,
         opacity: 0,
         duration: 1,
         stagger: 0.2,
         scrollTrigger: {
-          trigger: ".features-section",
-          start: "top 80%",
-          toggleActions: "play none none reverse"
-        }
+          trigger: '.features-section',
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
       });
 
-      gsap.from(".slide-right", {
+      gsap.from('.slide-right', {
         x: 200,
         opacity: 0,
         duration: 1,
         stagger: 0.2,
         scrollTrigger: {
-          trigger: ".features-section",
-          start: "top 80%",
-          toggleActions: "play none none reverse"
-        }
+          trigger: '.features-section',
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
       });
 
       // Testimonials parallax effect
-      gsap.to(".parallax-bg", {
+      gsap.to('.parallax-bg', {
         yPercent: -50,
-        ease: "none",
+        ease: 'none',
         scrollTrigger: {
-          trigger: ".testimonials-section",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
+          trigger: '.testimonials-section',
+          start: 'top bottom',
+        end: 'bottom top',
+          scrub: true,
+        },
       });
-
     });
 
     return () => ctx.revert();
@@ -101,22 +132,22 @@ const Home = () => {
     <div ref={containerRef} className="min-h-screen bg-background">
       {/* Navigation */}
       <Navigation />
-      
+
       {/* Hero Section */}
       <HeroSection heroY={heroY} heroOpacity={heroOpacity} />
-      
+
       {/* Features Section */}
       <FeaturesSection />
-      
+
       {/* How It Works Section */}
       <HowItWorksSection />
-      
+
       {/* Testimonials Section */}
       <TestimonialsSection />
-      
+
       {/* Call to Action Section */}
       <CallToActionSection />
-      
+
       {/* Footer */}
       <Footer />
     </div>
@@ -138,29 +169,43 @@ const Navigation = () => {
         >
           ZenoMeet
         </motion.div>
-        
+
         <div className="hidden md:flex items-center space-x-8">
-          <a href="#home" className="text-foreground hover:text-primary transition-colors">Home</a>
-          <a href="#features" className="text-foreground hover:text-primary transition-colors">Features</a>
-          <a href="#pricing" className="text-foreground hover:text-primary transition-colors">Pricing</a>
-          <a href="#contact" className="text-foreground hover:text-primary transition-colors">Contact</a>
+          <a href="#home" className="text-foreground hover:text-primary transition-colors">
+            Home
+          </a>
+          <a href="#features" className="text-foreground hover:text-primary transition-colors">
+            Features
+          </a>
+          <a href="#pricing" className="text-foreground hover:text-primary transition-colors">
+            Pricing
+          </a>
+          <a href="#contact" className="text-foreground hover:text-primary transition-colors">
+            Contact
+          </a>
         </div>
         <Link href="/sign-in">
-        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-          Sign Up
-        </Button>
+          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+            Sign Up
+          </Button>
         </Link>
       </div>
     </motion.nav>
   );
 };
 
-const HeroSection = ({ heroY, heroOpacity }: { heroY: any, heroOpacity: any }) => {
+const HeroSection = ({
+  heroY,
+  heroOpacity,
+}: {
+  heroY: MotionValue<number>;
+  heroOpacity: MotionValue<number>;
+}) => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/20 dark:via-purple-950/20 dark:to-pink-950/20" />
-      
+
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         {[...Array(6)].map((_, i) => (
@@ -175,7 +220,7 @@ const HeroSection = ({ heroY, heroOpacity }: { heroY: any, heroOpacity: any }) =
             transition={{
               duration: 15 + i * 2,
               repeat: Infinity,
-              ease: "linear"
+              ease: 'linear',
             }}
             style={{
               left: `${10 + i * 15}%`,
@@ -206,31 +251,34 @@ const HeroSection = ({ heroY, heroOpacity }: { heroY: any, heroOpacity: any }) =
         <motion.h1
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1, ease: 'easeOut' }}
           className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
         >
-         Smarter Meetings with AI Agents Tailored to You — Only on ZenoMeet
+          Smarter Meetings with AI Agents Tailored to You — Only on ZenoMeet
         </motion.h1>
-        
+
         <motion.p
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
           className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto"
         >
           Schedule personalized sessions with AI agents for learning, interview prep, and more.
         </motion.p>
-        
+
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
         >
           <Link href="/sign-in">
-          <Button size="lg" className="bg-gradient-to-r cursor-pointer from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-lg">
-            Get Started <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
+            <Button
+              size="lg"
+              className="bg-gradient-to-r cursor-pointer from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-lg"
+            >
+              Get Started <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
           </Link>
           <Button size="lg" variant="outline" className="px-8 py-3 text-lg">
             Learn More
@@ -245,49 +293,49 @@ const HeroSection = ({ heroY, heroOpacity }: { heroY: any, heroOpacity: any }) =
 };
 
 const MultipleAICards = () => {
-  const aiAgents = [
+  const aiAgents: AIAgent[] = [
     {
       icon: Brain,
-      title: "AI Teaching Agent",
-      description: "Master any subject with personalized lessons",
-      gradient: "from-blue-500 to-purple-500",
-      bgGradient: "from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20"
+      title: 'AI Teaching Agent',
+      description: 'Master any subject with personalized lessons',
+      gradient: 'from-blue-500 to-purple-500',
+      bgGradient: 'from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20',
     },
     {
       icon: MessageCircle,
-      title: "Interview Coach",
-      description: "Ace interviews with real-time feedback",
-      gradient: "from-purple-500 to-pink-500",
-      bgGradient: "from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20"
+      title: 'Interview Coach',
+      description: 'Ace interviews with real-time feedback',
+      gradient: 'from-purple-500 to-pink-500',
+      bgGradient: 'from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20',
     },
     {
       icon: Code,
-      title: "Coding Mentor",
-      description: "Level up your programming skills",
-      gradient: "from-green-500 to-blue-500",
-      bgGradient: "from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20"
+      title: 'Coding Mentor',
+      description: 'Level up your programming skills',
+      gradient: 'from-green-500 to-blue-500',
+      bgGradient: 'from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20',
     },
     {
       icon: Target,
-      title: "Career Advisor",
-      description: "Navigate your career path with confidence",
-      gradient: "from-orange-500 to-red-500",
-      bgGradient: "from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20"
+      title: 'Career Advisor',
+      description: 'Navigate your career path with confidence',
+      gradient: 'from-orange-500 to-red-500',
+      bgGradient: 'from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20',
     },
     {
       icon: Lightbulb,
-      title: "Innovation Guide",
-      description: "Spark creativity and innovative thinking",
-      gradient: "from-yellow-500 to-orange-500",
-      bgGradient: "from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
+      title: 'Innovation Guide',
+      description: 'Spark creativity and innovative thinking',
+      gradient: 'from-yellow-500 to-orange-500',
+      bgGradient: 'from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20',
     },
     {
       icon: Briefcase,
-      title: "Business Strategist",
-      description: "Build and scale your business ideas",
-      gradient: "from-indigo-500 to-purple-500",
-      bgGradient: "from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20"
-    }
+      title: 'Business Strategist',
+      description: 'Build and scale your business ideas',
+      gradient: 'from-indigo-500 to-purple-500',
+      bgGradient: 'from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20',
+    },
   ];
 
   return (
@@ -299,26 +347,27 @@ const MultipleAICards = () => {
   );
 };
 
-const FloatingAICard = ({ agent, index }: { agent: any, index: number }) => {
+const FloatingAICard = ({ agent, index }: { agent: AIAgent; index: number }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!cardRef.current) return;
-      
+
       const rect = cardRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      
+
       const deltaX = (e.clientX - centerX) / 15;
       const deltaY = (e.clientY - centerY) / 15;
-      
+
       cardRef.current.style.transform = `perspective(1000px) rotateX(${-deltaY}deg) rotateY(${deltaX}deg) translateZ(20px)`;
     };
 
     const resetTransform = () => {
       if (cardRef.current) {
-        cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+        cardRef.current.style.transform =
+          'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
       }
     };
 
@@ -334,35 +383,39 @@ const FloatingAICard = ({ agent, index }: { agent: any, index: number }) => {
     }
   }, []);
 
+  const Icon = agent.icon;
+
   return (
     <motion.div
       ref={cardRef}
-      className={`floating-card w-full h-80 transition-transform duration-300 ease-out cursor-pointer`}
+      className="floating-card w-full h-80 transition-transform duration-300 ease-out cursor-pointer"
       style={{ transformStyle: 'preserve-3d' }}
       whileHover={{ scale: 1.05 }}
       initial={{ opacity: 0, y: 100, rotateX: 45 }}
       animate={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ 
-        duration: 0.8, 
+      transition={{
+        duration: 0.8,
         delay: index * 0.2,
-        type: "spring",
-        stiffness: 100
+        type: 'spring',
+        stiffness: 100,
       }}
     >
-      <Card className={`w-full h-full bg-gradient-to-br ${agent.bgGradient} backdrop-blur-sm shadow-2xl border-0 hover:shadow-3xl transition-all duration-300`}>
+      <Card
+        className={`w-full h-full bg-gradient-to-br ${agent.bgGradient} backdrop-blur-sm shadow-2xl border-0 hover:shadow-3xl transition-all duration-300`}
+      >
         <CardContent className="p-6 h-full flex flex-col items-center justify-center">
           <motion.div
-            animate={{ 
+            animate={{
               rotate: [0, 360],
-              scale: [1, 1.1, 1]
+              scale: [1, 1.1, 1],
             }}
-            transition={{ 
-              rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            transition={{
+              rotate: { duration: 20, repeat: Infinity, ease: 'linear' },
+              scale: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
             }}
             className={`w-20 h-20 bg-gradient-to-r ${agent.gradient} rounded-full flex items-center justify-center mb-6 shadow-lg`}
           >
-            <agent.icon className="w-10 h-10 text-white" />
+            <Icon className="w-10 h-10 text-white" />
           </motion.div>
           <h3 className="text-xl font-bold mb-3 text-center">{agent.title}</h3>
           <p className="text-muted-foreground text-center text-sm leading-relaxed">
@@ -376,27 +429,27 @@ const FloatingAICard = ({ agent, index }: { agent: any, index: number }) => {
 
 const FeaturesSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
-  const features = [
+  const features: Feature[] = [
     {
       icon: BookOpen,
-      title: "AI Teaching Agent",
-      description: "Master any subject with tailored lessons designed just for you",
-      delay: 0
+      title: 'AI Teaching Agent',
+      description: 'Master any subject with tailored lessons designed just for you',
+      delay: 0,
     },
     {
       icon: Users,
-      title: "Interview Coach", 
-      description: "Ace your next job interview with real-time feedback and practice",
-      delay: 0.2
+      title: 'Interview Coach',
+      description: 'Ace your next job interview with real-time feedback and practice',
+      delay: 0.2,
     },
     {
       icon: Calendar,
-      title: "Flexible Scheduling",
-      description: "Book sessions anytime, anywhere that fits your busy schedule",
-      delay: 0.4
-    }
+      title: 'Flexible Scheduling',
+      description: 'Book sessions anytime, anywhere that fits your busy schedule',
+      delay: 0.4,
+    },
   ];
 
   return (
@@ -430,17 +483,27 @@ const FeaturesSection = () => {
   );
 };
 
-const FeatureCard = ({ feature, index, isInView }: { feature: any, index: number, isInView: boolean }) => {
-  const slideClass = index % 2 === 0 ? "slide-left" : "slide-right";
-  
+const FeatureCard = ({
+  feature,
+  index,
+  isInView,
+}: {
+  feature: Feature;
+  index: number;
+  isInView: boolean;
+}) => {
+  const slideClass = index % 2 === 0 ? 'slide-left' : 'slide-right';
+
+  const Icon = feature.icon;
+
   return (
     <motion.div
       initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
       animate={isInView ? { x: 0, opacity: 1 } : {}}
       transition={{ duration: 0.8, delay: feature.delay }}
-      whileHover={{ 
+      whileHover={{
         y: -10,
-        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
       }}
       className={`group ${slideClass}`}
     >
@@ -450,7 +513,7 @@ const FeatureCard = ({ feature, index, isInView }: { feature: any, index: number
             whileHover={{ scale: 1.1, rotate: 5 }}
             className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-shadow"
           >
-            <feature.icon className="w-8 h-8 text-white" />
+            <Icon className="w-8 h-8 text-white" />
           </motion.div>
           <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
           <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
@@ -462,24 +525,24 @@ const FeatureCard = ({ feature, index, isInView }: { feature: any, index: number
 
 const HowItWorksSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const steps = [
     {
       number: 1,
-      title: "Choose Your Agent",
-      description: "Select from a variety of AI mentors specialized in different fields"
+      title: 'Choose Your Agent',
+      description: 'Select from a variety of AI mentors specialized in different fields',
     },
     {
       number: 2,
-      title: "Schedule a Session", 
-      description: "Pick a time that suits you with our flexible booking system"
+      title: 'Schedule a Session',
+      description: 'Pick a time that suits you with our flexible booking system',
     },
     {
       number: 3,
-      title: "Learn and Grow",
-      description: "Engage in interactive, personalized meetings tailored to your goals"
-    }
+      title: 'Learn and Grow',
+      description: 'Engage in interactive, personalized meetings tailored to your goals',
+    },
   ];
 
   return (
@@ -535,27 +598,30 @@ const HowItWorksSection = () => {
 
 const TestimonialsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const testimonials = [
     {
-      quote: "AImpact helped me ace my coding interview! The personalized feedback was incredible.",
-      author: "Jane D.",
-      role: "Software Engineer",
-      avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop&crop=face"
+      quote: 'AImpact helped me ace my coding interview! The personalized feedback was incredible.',
+      author: 'Jane D.',
+      role: 'Software Engineer',
+      avatar:
+        'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop&crop=face',
     },
     {
-      quote: "The AI teaching agent made complex topics so easy to understand. Highly recommend!",
-      author: "Mark S.",
-      role: "Data Scientist",
-      avatar: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=100&h=100&fit=crop&crop=face"
+      quote: 'The AI teaching agent made complex topics so easy to understand. Highly recommend!',
+      author: 'Mark S.',
+      role: 'Data Scientist',
+      avatar:
+        'https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=100&h=100&fit=crop&crop=face',
     },
     {
-      quote: "Flexible scheduling and expert guidance - exactly what I needed for my career growth.",
-      author: "Sarah L.",
-      role: "Product Manager",
-      avatar: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=100&h=100&fit=crop&crop=face"
-    }
+      quote: 'Flexible scheduling and expert guidance - exactly what I needed for my career growth.',
+      author: 'Sarah L.',
+      role: 'Product Manager',
+      avatar:
+        'https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=100&h=100&fit=crop&crop=face',
+    },
   ];
 
   return (
@@ -593,7 +659,8 @@ const TestimonialsSection = () => {
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  <p className="text-gray-100 mb-6 italic">"{testimonial.quote}"</p>
+                  {/* Escape quotes to satisfy react/no-unescaped-entities */}
+                  <p className="text-gray-100 mb-6 italic">{`"${testimonial.quote}"`}</p>
                   <div className="flex items-center">
                     <motion.img
                       whileHover={{ rotateY: 15 }}
@@ -633,12 +700,12 @@ const CallToActionSection = () => {
               y: [0, -100, 0],
               x: [0, 50, 0],
               scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3]
+              opacity: [0.3, 0.6, 0.3],
             }}
             transition={{
               duration: 8 + i * 2,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: 'easeInOut',
             }}
             style={{
               left: `${10 + i * 12}%`,
@@ -688,17 +755,17 @@ const CallToActionSection = () => {
 
 const Footer = () => {
   const links = [
-    { name: "Home", href: "#home" },
-    { name: "Features", href: "#features" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "Contact", href: "#contact" },
-    { name: "Privacy Policy", href: "#privacy" }
+    { name: 'Home', href: '#home' },
+    { name: 'Features', href: '#features' },
+    { name: 'Pricing', href: '#pricing' },
+    { name: 'Contact', href: '#contact' },
+    { name: 'Privacy Policy', href: '#privacy' },
   ];
 
   const socialIcons = [
-    { Icon: Twitter, href: "#" },
-    { Icon: Linkedin, href: "#" },
-    { Icon: Github, href: "#" }
+    { Icon: Twitter, href: '#' },
+    { Icon: Linkedin, href: '#' },
+    { Icon: Github, href: '#' },
   ];
 
   return (
@@ -716,7 +783,7 @@ const Footer = () => {
               Transforming learning through AI-powered mentorship and personalized guidance.
             </p>
           </div>
-          
+
           <div>
             <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
             <motion.div className="space-y-2">
@@ -728,17 +795,14 @@ const Footer = () => {
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors block"
-                  >
+                  <a href={link.href} className="text-gray-400 hover:text-white transition-colors block">
                     {link.name}
                   </a>
                 </motion.div>
               ))}
             </motion.div>
           </div>
-          
+
           <div>
             <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
@@ -755,11 +819,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-800 pt-8 text-center">
-          <p className="text-gray-400">
-            © 2025 AImpact. All rights reserved.
-          </p>
+          <p className="text-gray-400">© 2025 AImpact. All rights reserved.</p>
         </div>
       </div>
     </footer>

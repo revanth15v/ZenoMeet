@@ -3,9 +3,6 @@ import {
   Heart, TrendingUp, TrendingDown, Minus, Users, MessageSquare, 
   AlertCircle, Target, Lightbulb, Brain, Activity, Globe, Shield, Eye
 } from 'lucide-react';
-import { Button } from './ui/button';
-import Link from 'next/link';
-import CommunicationAnalysis from './communication-analysis';
 
 // Mock AzureTextAnalyticsService definition
 class AzureTextAnalyticsService {
