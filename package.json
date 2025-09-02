@@ -11,6 +11,9 @@
     "db:studio": "drizzle-kit studio",
     "dev:webhook": "ngrok http --url=grateful-equipped-toad.ngrok-free.app 3000"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@azure/ai-text-analytics": "^5.1.0",
     "@azure/core-auth": "^1.10.0",
