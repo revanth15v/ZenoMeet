@@ -9,7 +9,7 @@
     "lint": "next lint",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "dev:webhook": "ngrok http --url=hare-topical-wasp.ngrok-free.app 3000"
+    "dev:webhook": "ngrok http --url=grateful-equipped-toad.ngrok-free.app 3000"
   },
   "dependencies": {
     "@azure/ai-text-analytics": "^5.1.0",
